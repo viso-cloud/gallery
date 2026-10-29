@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0f0ee">
+  <meta name="description" content="Captured moments from our desert trips and scenic routes.">
+  <title>VISO — Photo Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="wordmark" href="https://viso-cloud.github.io/about/">VISO</a>
+      <a class="home-button" href="../index.html">
+  <span aria-hidden="true">←</span> Back to Home
+</a>
+    <!--
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#home">Home</a><a href="#about">About</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
+      </nav>
+    
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    -->
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#home">Home</a><a href="#about">About</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
+    </nav>
+
+    <section class="intro" id="home">
+      <!--<span class="eyebrow">RANGOTSAV</span>-->
+      <div class="intro-line">
+        <h1>Photo Gallery</h1>
+        <p>Captured moments from our<br class="desktop-break"> RANGOTSAV 2026</p>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="gallery" aria-label="Photo gallery">
+      <div class="status-row" id="status-row" role="status" aria-live="polite"><span class="status-dot"></span><span id="status-text">Connecting to the archive…</span></div>
+      <div class="gallery" id="gallery-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <span class="empty-mark" aria-hidden="true">✳</span>
+        <h2>The story starts here.</h2>
+        <p>Upload images to your connected Google Drive folder and they’ll appear here after syncing.</p>
+      </div>
+      <div class="error-state" id="error-state" hidden>
+        <h2>We couldn’t reach the archive.</h2>
+        <p id="error-message">Check the configuration and try again.</p>
+        <button class="text-button" id="retry-button">Try again <span aria-hidden="true">↗</span></button>
+      </div>
+    </section>
+
+    <footer class="site-footer" id="about">
+      <span>VISO/ VISUAL STORYTELLING</span><span id="photo-count">A collection in progress</span>
+      <a href="mailto:hello@example.com" id="contact">Get in touch <span aria-hidden="true">↗</span></a>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true" hidden>
+    <div class="lightbox-top">
+      <div class="lightbox-file"><span class="lightbox-kicker">MARWA / ARCHIVE</span><span class="lightbox-name" id="lightbox-name"></span></div>
+      <div class="lightbox-actions">
+        <span class="image-counter" id="image-counter">01 / 01</span>
+        <a class="download-button" id="download-button" href="#" target="_blank" rel="noopener" aria-label="Download original image" title="Open original image to download">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3"/></svg>
+        </a>
+        <button class="icon-button" id="close-lightbox" aria-label="Close image viewer" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+    <button class="viewer-arrow viewer-prev" id="prev-image" aria-label="Previous image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="viewer-stage">
+      <div class="viewer-loading" id="viewer-loading">Loading original…</div>
+      <img id="viewer-image" alt="" draggable="false">
+    </div>
+    <button class="viewer-arrow viewer-next" id="next-image" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <div class="lightbox-bottom"><span>ORIGINAL IMAGE</span><span>← → NAVIGATE&nbsp;&nbsp; · &nbsp;&nbsp;ESC CLOSE</span></div>
+  </div>
+</body>
+</html>

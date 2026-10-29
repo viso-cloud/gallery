@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111111" />
+  <title>VISO — Rangotsav Cultural Fest</title>
+  <style>
+    :root {
+      --ink: #292929;
+      --muted: #777;
+      --line: #dedede;
+      --accent: #57bda6;
+      --paper: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .hero {
+      position: relative;
+      min-height: 430px;
+      height: min(68vh, 650px);
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: #171717;
+    }
+    .hero-video,
+    .hero-shade {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-video {
+      z-index: -2;
+      object-fit: cover;
+      object-position: center;
+      background: #171717;
+    }
+    /* Dark cinematic layer above the video, similar to the reference image */
+    .hero-shade {
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.56) 0%, rgba(0,0,0,.18) 28%, rgba(0,0,0,.36) 62%, rgba(0,0,0,.78) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.32), transparent 52%, rgba(0,0,0,.25));
+    }
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 26px clamp(22px, 4vw, 58px);
+      z-index: 2;
+    }
+    .brand {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      border-bottom: 2px solid rgba(255,255,255,.8);
+      padding-bottom: 3px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(15px, 2.7vw, 34px);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .nav a { opacity: .88; transition: opacity .2s ease; }
+    .nav a:hover { opacity: 1; }
+    .hero-copy {
+      width: min(820px, 90%);
+      padding: 72px 0 22px;
+      text-align: center;
+    }
+    .eyebrow {
+      margin: 0 0 13px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: .86;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 6.3vw, 68px);
+      line-height: 1.08;
+      font-weight: 600;
+      letter-spacing: clamp(8px, 1.8vw, 17px);
+      text-indent: clamp(8px, 1.8vw, 17px);
+    }
+    .hero-description {
+      max-width: 570px;
+      margin: 20px auto 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(14px, 1.7vw, 17px);
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(255,255,255,.9);
+    }
+    .hero-dots {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
+      margin-top: 25px;
+    }
+    .hero-dots span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.85);
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 34px clamp(22px, 3.8vw, 48px) 48px;
+    }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-heading h2 {
+      margin: 0;
+      color: #5b5b5b;
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 600;
+    }
+    .view-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+    .view-icon {
+      display: grid;
+      gap: 4px;
+      width: 22px;
+    }
+    .view-icon i {
+      display: block;
+      height: 2px;
+      width: 20px;
+      background: currentColor;
+      position: relative;
+    }
+    .view-icon i::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 0;
+      width: 2px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    .event-list { display: block; }
+    .event {
+      display: grid;
+      grid-template-columns: 58px minmax(220px, 1.05fr) minmax(250px, .95fr);
+      gap: clamp(22px, 3.2vw, 46px);
+      align-items: center;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .date {
+      align-self: start;
+      padding-top: 2px;
+      color: #656565;
+    }
+    .date .month {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .date .dash {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 12px 0 9px;
+      background: #d4d4d4;
+    }
+    .date .day {
+      display: block;
+      font-size: clamp(30px, 4vw, 43px);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    /* Shared editorial illustration panels */
+    .event-image {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 190px;
+      aspect-ratio: 1.58 / 1;
+      border-radius: 3px;
+      background: #222;
+      transition: filter .4s ease;
+    }
+
+    .event-image::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .9;
+      transition: transform .8s cubic-bezier(.2,.7,.2,1);
+    }
+
+    .event-image:hover::before { transform: scale(1.08); }
+
+    .art-glow {
+      position: absolute;
+      width: 65%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(55px);
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    .art-caption {
+      position: absolute;
+      bottom: 18px;
+      left: 20px;
+      color: rgba(255,255,255,.8);
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      font-weight: 600;
+    }
+
+    /* 01 — Award: black, antique gold and champagne */
+    .image-award { background: #171510; }
+
+    .image-award::before {
+      background:
+        linear-gradient(135deg, transparent 35%, rgba(219,177,95,.22)),
+        repeating-linear-gradient(135deg, transparent 0 28px, rgba(255,255,255,.025) 29px 30px),
+        radial-gradient(ellipse at 50% 45%, #75582b, #211b12 68%);
+    }
+
+    .image-award .art-glow { background: #e7b85e; }
+
+    .award-art {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 125px;
+      height: 125px;
+      border: 1px solid rgba(239,201,124,.45);
+      border-radius: 50%;
+      box-shadow: 0 0 0 12px rgba(239,201,124,.04), 0 0 0 25px rgba(239,201,124,.025);
+    }
+
+    .award-star {
+      position: absolute;
+      top: -15px;
+      right: 0;
+      color: #f5d99c;
+      font-size: 27px;
+    }
+
+    .award-cup {
+      font-size: 57px;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,.4));
+    }
+
+    /* 02 — Inogration: burgundy, copper and warm ceremonial light */
+    .image-inauguration { background: #321b24; }
+
+    .image-inauguration::before {
+      background:
+        linear-gradient(110deg, transparent 25%, rgba(255,205,142,.16) 50%, transparent 75%),
+        radial-gradient(ellipse at 50% 100%, #bd6b43, transparent 58%),
+        linear-gradient(145deg, #4d2435, #1d1820);
+    }
+
+    .image-inauguration .art-glow {
+      background: #ed9861;
+      transform: translateY(-15px);
+    }
+
+    .inauguration-art {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 130px;
+      height: 130px;
+      border: 1px solid rgba(255,211,169,.5);
+      border-radius: 50%;
+    }
+
+    .ceremony-orb {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff0ce, #d88956 35%, #773b42 75%);
+      box-shadow: 0 0 40px rgba(235,150,95,.35);
+    }
+
+    .ceremony-line {
+      position: absolute;
+      width: 175px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e6b58b, transparent);
+      transform: rotate(-35deg);
+    }
+
+    /* 03 — Program: emerald, jade and mint */
+    .image-program { background: #102a28; }
+
+    .image-program::before {
+      background:
+        linear-gradient(135deg, rgba(119,206,171,.12), transparent 55%),
+        radial-gradient(ellipse at 80% 20%, #397b66, transparent 48%),
+        linear-gradient(140deg, #183e39, #0d2225);
+    }
+
+    .image-program .art-glow { background: #55c4a1; }
+
+    .program-art {
+      position: relative;
+      width: 145px;
+      height: 120px;
+      display: grid;
+      place-items: center;
+    }
+
+    .program-circle {
+      position: absolute;
+      width: 88px;
+      height: 88px;
+      border: 1px solid rgba(186,255,220,.8);
+      border-radius: 50%;
+    }
+
+    .circle-one {
+      transform: translateX(-25px);
+      background: rgba(91,201,157,.14);
+    }
+
+    .circle-two {
+      transform: translateX(25px);
+      background: rgba(116,216,180,.12);
+    }
+
+    .circle-three {
+      width: 42px;
+      height: 42px;
+      background: rgba(218,255,235,.8);
+      box-shadow: 0 0 30px rgba(130,241,195,.25);
+    }
+    .event-copy h3 {
+      margin: 0 0 8px;
+      color: #565656;
+      font-size: clamp(19px, 2.2vw, 23px);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .event-meta {
+      margin: 0;
+      color: #888;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .event-description {
+      margin: 15px 0 24px;
+      color: #777;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .event-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #cfcfcf;
+      color: #626262;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color .2s ease;
+    }
+    .event-link:hover { color: var(--accent); }
+    .arrow {
+      font-size: 23px;
+      line-height: .8;
+      font-weight: 300;
+      transition: transform .2s ease;
+    }
+    .event-link:hover .arrow { transform: translateX(4px); }
+
+    .previous {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 38px;
+      color: #656565;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .previous-mark {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    footer {
+      position: relative;
+      overflow: hidden;
+      min-height: 350px;
+      padding: 74px 24px 30px;
+      text-align: center;
+      color: rgba(255,255,255,.65);
+      background:
+        linear-gradient(rgba(13,13,13,.86), rgba(13,13,13,.94)),
+        url("school.jpg") center 65% / cover,
+        #191919;
+    }
+    .footer-motto {
+      max-width: 920px;
+      margin: 0 auto 42px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(27px, 5vw, 52px);
+      line-height: 1.45;
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255,255,255,.4);
+    }
+    .footer-brand {
+      display: inline-grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 27px;
+      font-weight: 700;
+      color: rgba(255,255,255,.65);
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      max-width: 1000px;
+      margin: 50px auto 0;
+      color: rgba(255,255,255,.4);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-style: italic;
+    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-links a:hover { color: white; }
+
+
+    @media (max-width: 760px) {
+      .event-image { min-height: 150px; }
+      .award-art, .inauguration-art { width: 100px; height: 100px; }
+      .award-cup { font-size: 45px; }
+      .program-art { transform: scale(.8); }
+      .art-caption { left: 12px; bottom: 12px; font-size: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .event-image, .event-image::before { transition: none; }
+    }
+
+    @media (max-width: 760px) {
+      .hero { min-height: 410px; height: 72vh; }
+      .topbar { padding: 22px; align-items: flex-start; }
+      .nav { gap: 13px; font-size: 9px; flex-wrap: wrap; justify-content: flex-end; max-width: 75%; }
+      .nav a:nth-child(2), .nav a:nth-child(4) { display: none; }
+      .hero-copy { padding-top: 55px; }
+      .hero-description { max-width: 440px; }
+      main { padding-top: 28px; }
+      .event { grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 27px 0; }
+      .event-image { grid-column: 2; grid-row: 1; }
+      .event-copy { grid-column: 2; }
+      .date { grid-column: 1; grid-row: 1 / span 2; }
+      .date .month { font-size: 12px; }
+      .date .day { font-size: 31px; }
+      .event-copy h3 { font-size: 19px; }
+      .event-description { margin-bottom: 18px; }
+      footer { min-height: 310px; padding-top: 58px; }
+      .footer-bottom { justify-content: center; margin-top: 35px; }
+    }
+    @media (max-width: 430px) {
+      .brand { font-size: 22px; }
+      .nav { gap: 10px; }
+      .nav a { font-size: 8px; }
+      .section-heading { padding-bottom: 22px; }
+      .event { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; }
+      .date .month { letter-spacing: 1px; }
+      .event-meta { font-size: 13px; }
+      .event-description { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <!-- Keep school.mp4 in the same folder as this HTML file. -->
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="school.mp4" type="video/mp4" />
+      <source src="school.webm" type="video/webm" />
+    </video>
+    <div class="hero-shade" aria-hidden="true"></div>
+
+    <div class="topbar">
+      <a class="brand" href="#top" aria-label="VISO home">V</a>
+      <nav class="nav" aria-label="Main navigation">
+
+        
+      </nav>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow">VISO presents</p>
+      <h1>RANGOTSAV</h1>
+      <p class="hero-description">A celebration of culture, creativity, and community.<br />One stage. Many stories. An unforgettable fest.</p>
+      <div class="hero-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+  </header>
+
+  <main id="events">
+    <div class="section-heading">
+      <h2>Rangotsav — Cultural Fest</h2>
+      <div class="view-label" aria-label="List view">
+        <span class="view-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>List</span>
+      </div>
+    </div>
+
+    <section class="event-list" aria-label="Rangotsav files">
+      <article class="event" id="award">
+        <div class="date" aria-label="Item one">
+          <span class="month">FILE</span><span class="dash"></span><span class="day">01</span>
+        </div>
+        <div class="event-image image-award" role="img" aria-label="Golden award trophy illustration">
+          <div class="art-glow"></div>
+          <div class="award-art">
+            <span class="award-star">✦</span>
+            <span class="award-cup">🏆</span>
+            <span class="art-caption">EXCELLENCE / 01</span>
+          </div>
+        </div>
+        <div class="event-copy">
+          <h3>Award</h3>
+          <p class="event-meta">Rangotsav · Cultural Fest</p>
+          <p class="event-description">Awards, recognition, and memorable achievements from the event.</p>
+          <a class="event-link" href="awards/index.html">
+            <span>View Award</span><span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="event" id="inogration">
+        <div class="date" aria-label="Item two">
+          <span class="month">FILE</span><span class="dash"></span><span class="day">02</span>
+        </div>
+        <div class="event-image image-inauguration" role="img" aria-label="Ceremonial inauguration illustration">
+          <div class="art-glow"></div>
+          <div class="inauguration-art">
+            <span class="ceremony-orb"></span>
+            <span class="ceremony-line"></span>
+            <span class="art-caption">THE BEGINNING / 02</span>
+          </div>
+        </div>
+        <div class="event-copy">
+          <h3>Inogration</h3>
+          <p class="event-meta">Rangotsav · Opening Ceremony</p>
+          <p class="event-description">The opening moments that set the tone for the celebration.</p>
+          <a class="event-link" href="inauguration/index.html">
+            <span>View Inogration</span><span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="event" id="program">
+        <div class="date" aria-label="Item three">
+          <span class="month">FILE</span><span class="dash"></span><span class="day">03</span>
+        </div>
+        <div class="event-image image-program" role="img" aria-label="Cultural program illustration">
+          <div class="art-glow"></div>
+          <div class="program-art">
+            <span class="program-circle circle-one"></span>
+            <span class="program-circle circle-two"></span>
+            <span class="program-circle circle-three"></span>
+            <span class="art-caption">CULTURE IN MOTION / 03</span>
+          </div>
+        </div>
+        <div class="event-copy">
+          <h3>Program</h3>
+          <p class="event-meta">Rangotsav · Event Schedule</p>
+          <p class="event-description">Explore the program and find the performances and activities.</p>
+          <a class="event-link" href="events/index.html">
+            <span>View Program</span><span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <a class="previous" href="#top"><span class="previous-mark" aria-hidden="true">‹</span> Back to Top</a>
+  </main>
+
+  <footer id="contact">
+    <p class="footer-motto">Celebrating Culture,<br />Creativity &amp; Community.</p>
+    <a class="footer-brand" href="#top" aria-label="VISO home">V</a>
+    <div class="footer-bottom">
+      <span>© VISO · Rangotsav Cultural Fest</span>
+      <div class="footer-links">
+
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Video playback is muted so browsers allow autoplay. Loop restarts it automatically.
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      heroVideo.muted = true;
+      heroVideo.loop = true;
+      const tryPlay = () => heroVideo.play().catch(() => {});
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && heroVideo.paused) tryPlay();
+      });
+      window.addEventListener('load', tryPlay);
+    }
+
+  </script>
+</body>
+</html>
