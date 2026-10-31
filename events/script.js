@@ -93,7 +93,7 @@
       const params = new URLSearchParams({
         q: `'${config.DRIVE_FOLDER_ID}' in parents and trashed = false`,
         pageSize: "25",
-        orderBy: "createdTime desc",
+        orderBy: "name_natural",
         fields: "nextPageToken,files(id,name,mimeType,thumbnailLink,webViewLink,createdTime,imageMediaMetadata(width,height))",
         key: config.GOOGLE_API_KEY
       });
@@ -134,21 +134,22 @@
     return index % 4 === 0 ? "square-large" : "square";
   }
 
-  // Give each file a repeatable but irregular visual position. Using the file
-  // ID keeps the order stable between refreshes instead of reshuffling tiles.
-  function visualSortKey(id) {
-    let hash = 2166136261;
-    for (let i = 0; i < id.length; i += 1) {
-      hash ^= id.charCodeAt(i);
-      hash = Math.imul(hash, 16777619);
-    }
-    return hash >>> 0;
+  // Sort photos naturally by filename:
+  // photo1.jpg, photo2.jpg, photo10.jpg
+  function comparePhotos(a, b) {
+    const nameA = String(a.name || "").trim();
+    const nameB = String(b.name || "").trim();
+
+    return nameA.localeCompare(nameB, undefined, {
+      numeric: true,
+      sensitivity: "base"
+    });
   }
 
   function render(nextImages) {
     const old = new Map(images.map(file => [file.id, file]));
     images = [...new Map(nextImages.map(file => [file.id, file])).values()]
-      .sort((a, b) => visualSortKey(a.id) - visualSortKey(b.id));
+      .sort(comparePhotos);
     const ids = new Set(images.map(file => file.id));
     [...grid.children].forEach(card => { if (!ids.has(card.dataset.id)) card.remove(); });
 
